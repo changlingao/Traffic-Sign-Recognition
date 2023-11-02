@@ -13,6 +13,8 @@ transform = transforms.Compose([
 # TODO: batch size
 batch_size = 50
 
+
+
 # TODO: change path
 train_path = './GTSRB_Final_Training_Images/Final_Training/Images/'
 
