@@ -3,10 +3,21 @@ import torch
 from torchvision.datasets import ImageFolder
 from torch.utils.data import DataLoader
 from net import Net
-from params import transform, batch_size, train_path, number_of_classes, classes, test_path, net_path
+import torchvision.transforms as transforms
 
+# params
+number_of_classes = 43
+classes = [str(i) for i in range(number_of_classes)]  # Generates a list from '0' to '42'
+net_path = 'net.pth'
+transform = transforms.Compose([
+    transforms.Resize((48, 48)),
+    transforms.ToTensor(),
+    transforms.Normalize([0.5], [0.5]),
+])
+batch_size = 50
 
 # load test images to device
+test_path = './Small_Testing/'
 testset = ImageFolder(root=test_path, transform=transform)
 testloader = DataLoader(testset, batch_size=batch_size, shuffle=False, num_workers=2)
 dataiter = iter(testloader)

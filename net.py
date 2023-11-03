@@ -9,12 +9,12 @@ class Net(nn.Module):
         self.conv1 = nn.Conv2d(3, 6, 5)
         self.pool = nn.MaxPool2d(2, 2)
         self.conv2 = nn.Conv2d(6, 16, 5)
-        # self.fc1 = nn.Linear(16 * 5 * 5, 120)
-        # no idea where to 44944 except errors
-        # TODO: need modification
-        self.fc1 = nn.Linear(1296, 120)
-        self.fc2 = nn.Linear(120, 84)
-        self.fc3 = nn.Linear(84, number_of_classes)
+        # tuning
+        layer1 = 128
+        layer2 = 64
+        self.fc1 = nn.Linear(1296, layer1) # no idea where to get 44944/1296 except errors depends on trasform size?
+        self.fc2 = nn.Linear(layer1, layer2)
+        self.fc3 = nn.Linear(layer2, number_of_classes)
 
     def forward(self, x):
         x = self.pool(F.relu(self.conv1(x)))

@@ -22,5 +22,8 @@ env/
 # ignore all images data
 GTSRB_Final_Test_Images/
 GTSRB_Final_Training_Images/
-Testing/
-Training/
+Small_Testing/
+Small_Training/
+
+# Ignore net_xxx.pth temporary net
+net_*.pth

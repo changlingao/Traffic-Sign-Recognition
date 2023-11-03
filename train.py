@@ -8,10 +8,37 @@ from torchvision.datasets import ImageFolder
 import torch.nn as nn
 import torch.optim as optim
 from net import Net
-from params import transform, batch_size, train_path, number_of_classes, classes, net_path
+import torchvision.transforms as transforms
+
+params = {
+    "batch_size": 32,
+    "lr": 0.01,
+    "epoch": 3,
+}
+
+number_of_classes = 43
+classes = [str(i) for i in range(number_of_classes)]  # Generates a list from '0' to '42'
+
+net_path = 'net.pth'
+
+
+# TODO: fine tuning
+# crop size
+# RandomHorizontalFlip: data augmentation technique
+# Normalize value...
+transform = transforms.Compose([
+    transforms.Resize((48, 48)),
+    transforms.ToTensor(),
+    transforms.Normalize([0.5], [0.5]),
+])
+
+# tuning: 16, 32, 64 ...
+batch_size = params['batch_size'] 
+# 1000 training examples, batch size is 50, take 20 iterations to complete 1 epoch.
 
 
 # load train data
+train_path = './GTSRB_Final_Training_Images/Final_Training/Images/'
 trainset = ImageFolder(root=train_path, transform=transform)
 trainloader = DataLoader(trainset, batch_size=batch_size, shuffle=True, num_workers=8)
 
@@ -19,14 +46,15 @@ trainloader = DataLoader(trainset, batch_size=batch_size, shuffle=True, num_work
 net = Net(number_of_classes)
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
+# tuning learning rate: 0.001
+optimizer = optim.SGD(net.parameters(), lr=params['lr'], momentum=0.9)
 
 # to GPU
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 net.to(device)
 
 # actual training
-for epoch in range(3):  # loop over the dataset multiple times
+for epoch in range(params['epoch']):  # tuning the loop over times
     running_loss = 0.0
     for i, data in enumerate(trainloader, 0):
         # get the inputs; data is a list of [inputs, labels]
@@ -45,10 +73,10 @@ for epoch in range(3):  # loop over the dataset multiple times
 
         # print statistics
         running_loss += loss.item()
-        # print every n mini-batches
+        # print every epoch
         n = len(trainset) // batch_size
         if i % n == (n - 1):
-            print(f'[{epoch + 1}, {i + 1:5d}] loss: {running_loss / n:.3f}')
+            print(f'[{epoch + 1}, {i + 1 :5d}] loss: {running_loss / n :.3f}')
             running_loss = 0.0
 
 print('Finished Training')

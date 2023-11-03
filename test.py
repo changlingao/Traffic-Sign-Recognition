@@ -14,10 +14,10 @@ from net import Net
 
 if __name__ == '__main__':
     torch.manual_seed(118)
-    testloader = DataLoader(GTSRB_Test_Loader(TEST_PATH='../GTSRB_Final_Test_Images/Final_Test/Images/', TEST_GT_PATH='./GTSRB_Test_GT.csv'), batch_size=50, shuffle=True, num_workers=8)
+    testloader = DataLoader(GTSRB_Test_Loader(TEST_PATH='./GTSRB_Final_Test_Images/Final_Test/Images/', TEST_GT_PATH='./GTSRB_Test_GT.csv'), batch_size=50, shuffle=True, num_workers=8)
 
     # import your trained model 
-    PATH = '../net.pth'
+    PATH = './net.pth'
     net = Net(43)
     # to GPU
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
