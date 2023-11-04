@@ -10,11 +10,6 @@ import torch.optim as optim
 from net import Net
 import torchvision.transforms as transforms
 
-params = {
-    "batch_size": 32,
-    "lr": 0.01,
-    "epoch": 3,
-}
 
 number_of_classes = 43
 classes = [str(i) for i in range(number_of_classes)]  # Generates a list from '0' to '42'
@@ -22,18 +17,17 @@ classes = [str(i) for i in range(number_of_classes)]  # Generates a list from '0
 net_path = 'net.pth'
 
 
-# TODO: fine tuning
-# crop size
-# RandomHorizontalFlip: data augmentation technique
-# Normalize value...
+# tuning: data augmentation technique (random flip...)
 transform = transforms.Compose([
+    # resize and normalize folloe the value in evaluation/test.py 
     transforms.Resize((48, 48)),
     transforms.ToTensor(),
     transforms.Normalize([0.5], [0.5]),
+    transforms.RandomPerspective(0.3, 0.1) # data augmentation
 ])
 
 # tuning: 16, 32, 64 ...
-batch_size = params['batch_size'] 
+batch_size = 32
 # 1000 training examples, batch size is 50, take 20 iterations to complete 1 epoch.
 
 
@@ -47,14 +41,14 @@ net = Net(number_of_classes)
 
 criterion = nn.CrossEntropyLoss()
 # tuning learning rate: 0.001
-optimizer = optim.SGD(net.parameters(), lr=params['lr'], momentum=0.9)
+optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.9)
 
 # to GPU
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 net.to(device)
 
 # actual training
-for epoch in range(params['epoch']):  # tuning the loop over times
+for epoch in range(3):  # tuning the loop over times
     running_loss = 0.0
     for i, data in enumerate(trainloader, 0):
         # get the inputs; data is a list of [inputs, labels]
