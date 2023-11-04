@@ -1,3 +1,6 @@
+# follows
+# https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html#define-a-convolutional-neural-network
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

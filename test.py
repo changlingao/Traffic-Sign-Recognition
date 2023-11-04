@@ -19,10 +19,11 @@ if __name__ == '__main__':
     # import your trained model 
     PATH = './net.pth'
     net = Net(43)
-    # to GPU
+
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     net.to(device)
-    net.load_state_dict(torch.load(PATH))
+    # can test in cpu
+    net.load_state_dict(torch.load(PATH, map_location=torch.device('cpu')))
 
     testing_accuracy = evaluate(net, testloader)
     print('testing finished, accuracy: {:.3f}'.format(testing_accuracy))

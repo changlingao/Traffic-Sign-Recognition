@@ -1,3 +1,4 @@
+# traning loop follows
 # https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html
 
 # When import a Python module, any executable code that's not contained within functions or classes will be executed.
